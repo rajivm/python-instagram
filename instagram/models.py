@@ -84,7 +84,9 @@ class Comment(ApiModel):
 
     @classmethod
     def object_from_dictionary(cls, entry):
-        user = User.object_from_dictionary(entry['from'])
+        user = None
+        if entry['from']:
+            user = User.object_from_dictionary(entry['from'])
         text = entry['text']
         created_at = timestamp_to_datetime(entry['created_time'])
         id = entry['id']
