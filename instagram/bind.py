@@ -91,9 +91,9 @@ def bind_method(**config):
             response, content = OAuth2Request(self.api).make_request(url, method=method, body=body, headers=headers)
             if response['status'] == '503':
                 raise InstagramAPIError(response['status'], "Rate limited", "Your client is making too many request per second")
-            if response['status'] == '400':
-                raise InstagramAPIError(content['code'], content['error_type'], content['error_message'])
             content_obj = simplejson.loads(content)
+            if response['status'] == '400':
+                raise InstagramAPIError(content_obj['code'], content_obj['error_type'], content_obj['error_message'])
             api_responses = []
             status_code = content_obj['meta']['code']
             if status_code == 200:
