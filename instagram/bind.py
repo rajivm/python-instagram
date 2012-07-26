@@ -144,6 +144,8 @@ def bind_method(**config):
             return
 
         def execute(self):
+            if not self.parameters:
+                self.parameters = {}
             url, method, body, headers = OAuth2Request(self.api).prepare_request(self.method,
                                                                                  self.path,
                                                                                  self.parameters,
