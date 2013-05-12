@@ -2,7 +2,7 @@ import oauth2
 from bind import bind_method
 from models import Media, User, Location, Tag, Comment, Relationship
 
-MEDIA_ACCEPT_PARAMETERS = ["count", "max_id"]
+MEDIA_ACCEPT_PARAMETERS = ["count", "max_id", "min_id", "max_tag_id"]
 SEARCH_ACCEPT_PARAMETERS = ["q", "count"]
 
 SUPPORTED_FORMATS = ['json']
