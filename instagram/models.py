@@ -8,11 +8,13 @@ class ApiModel(object):
         # make dict keys all strings
         entry_str_dict = dict([(str(key), value) for key, value in entry.items()])
         model = cls(**entry_str_dict)
-        model.dict = entry_str_dict
+        model._dict = entry_str_dict
         return model
 
     def __repr__(self):
-        return unicode(self).encode('utf8')
+        return '<%s: %r>' % (
+            str(self.__class__).split('.')[-1],
+            dict([(k, v) for k, v in vars(self).items() if not k.startswith('_')]))
 
 
 class Image(ApiModel):
@@ -42,7 +44,7 @@ class Media(ApiModel):
     @classmethod
     def object_from_dictionary(cls, entry):
         new_media = Media(id=entry['id'])
-        new_media.dict = entry
+        new_media._dict = entry
 
         new_media.user = User.object_from_dictionary(entry['user'])
         new_media.images = {}
@@ -103,7 +105,7 @@ class Comment(ApiModel):
         user = None
         if entry['from']:
             user = User.object_from_dictionary(entry['from'])
-            user.dict = entry
+            user._dict = entry
         text = entry['text']
         created_at = timestamp_to_datetime(entry['created_time'])
         id = entry['id']
@@ -137,7 +139,7 @@ class Location(ApiModel):
         location = cls(entry.get('id'),
                        point=point,
                        name=entry.get('name'))
-        location.dict = entry
+        location._dict = entry
         return location
 
     def __unicode__(self):
