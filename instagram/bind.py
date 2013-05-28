@@ -104,7 +104,7 @@ def bind_method(**config):
                     raise InstagramAPIError(420, "Rate limited", error_message)
                 raise InstagramAPIError(content_obj.has_key('code'), content_obj.has_key('error_type'), content_obj.has_key('error_message'))
             if response['status'] == '400':
-                raise InstagramAPIError(content_obj['code'], content_obj['error_type'], content_obj['error_message'])
+                raise InstagramAPIError(content_obj['meta'].get('code', '?'), content_obj['meta'].get('error_type', '?'), content_obj['meta'].get('error_message', '?'))
 
             api_responses = []
             status_code = content_obj['meta']['code']
