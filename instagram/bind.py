@@ -110,7 +110,8 @@ def bind_method(**config):
             status_code = content_obj['meta']['code']
             if status_code == 200:
                 if not self.objectify_response:
-                    return content_obj, content_obj.get('pagination', {}).get('next_url')
+                    print content_obj
+                    return content_obj, content_obj['pagination'].get('next_url') if content_obj.get('pagination') else None
 
                 if self.response_type == 'list':
                     for entry in content_obj['data']:
@@ -127,7 +128,7 @@ def bind_method(**config):
                         api_responses = self.root_class.object_from_dictionary(data)
                 elif self.response_type == 'empty':
                     pass
-                return api_responses, content_obj.get('pagination', {}).get('next_url')
+                return api_responses, content_obj['pagination'].get('next_url') if content_obj.get('pagination') else None
             else:
                 raise InstagramAPIError(status_code, content_obj['meta']['error_type'], content_obj['meta']['error_message'])
 
